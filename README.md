@@ -1,2 +1,1 @@
-# value_at_risk
- Value At Risk of a portfolio
+# Value-at-Risk Analysis of an Optimized Portfolio consisting of Human Capital Management Company Stocks
