@@ -16,11 +16,10 @@ library(zoo)
 library(FinTS)
 library(rugarch)
 
-
 options("getSymbols.warning4.0"=FALSE)
 options("getSymbols.yahoo.warning"=FALSE)
 
-tickers = c("SAP", "ORCL", "WDAY", "CDAY", "CSOD", "ADP", "PCTY", "PAYC")
+tickers = c("SAP", "ORCL", "WDAY", "CDAY", "CACI", "ADP", "PCTY", "PAYC")
 
 #weights = c(0.125, 0.125 ,0.125 , 0.125 , 0.125 , 0.125 , 0.125 ,0.125)
 # SAP  Sap SuccessFactors
@@ -28,7 +27,7 @@ tickers = c("SAP", "ORCL", "WDAY", "CDAY", "CSOD", "ADP", "PCTY", "PAYC")
 # WDAY Workday HCM
 # CDAY Ceridian Dayforce HCM
 # ADP  Automatic Data Processing
-# CSOD Cornerstone OnDemand, Inc.
+# CACI CACI International, Inc.
 # PCTY Paylocity Holding Corp
 # PAYC Paycom
 
@@ -38,21 +37,21 @@ getSymbols(tickers)
 #NA Present
 # Market Analysis
 ###Figure 1 : Stock Price of 8 HCM Company [January 2007 - June 2021]
-Port.prices.NA = merge(Ad(SAP),Ad(ORCL),Ad(WDAY),Ad(CDAY),Ad(CSOD),Ad(ADP),Ad(PCTY),Ad(PAYC))
+Port.prices.NA = merge(Ad(SAP),Ad(ORCL),Ad(WDAY),Ad(CDAY),Ad(CACI),Ad(ADP),Ad(PCTY),Ad(PAYC))
 plot(Port.prices.NA, lwd =1, main = "Stock Price ($)",major.ticks= "years",
      minor.ticks = 'years')
 addLegend("topleft", on=1, 
-          legend.names = c("SAP", "ORCL", "WDAY", "CDAY", "CSOD", "ADP", "PCTY", "PAYC"), col=c(),lty=c(1, 1),cex=0.75)
+          legend.names = c("SAP", "ORCL", "WDAY", "CDAY", "CACI", "ADP", "PCTY", "PAYC"), col=c(),lty=c(1, 1),cex=0.75)
 
 ###Figure 2 : Stock Prices of 8 HCM Companies [January 2017 - June 2021]
-Port.prices.NA = merge(Ad(SAP),Ad(ORCL),Ad(WDAY),Ad(CDAY),Ad(CSOD),Ad(ADP),Ad(PCTY),Ad(PAYC))
+Port.prices.NA = merge(Ad(SAP),Ad(ORCL),Ad(WDAY),Ad(CDAY),Ad(CACI),Ad(ADP),Ad(PCTY),Ad(PAYC))
 plot(Port.prices.NA["20170101/20210601"], lwd =1, main = "Stock Price ($)",major.ticks= "years",
         minor.ticks = 'years')
 addLegend("topleft", on=1, 
-          legend.names = c("SAP", "ORCL", "WDAY", "CDAY", "CSOD", "ADP", "PCTY", "PAYC"), col=c(),lty=c(1, 1),cex=0.75)
+          legend.names = c("SAP", "ORCL", "WDAY", "CDAY", "CACI", "ADP", "PCTY", "PAYC"), col=c(),lty=c(1, 1),cex=0.75)
 
 #NA Deleted and Log Returns
-Port.prices = na.omit(merge(Ad(SAP),Ad(ORCL),Ad(WDAY),Ad(CDAY),Ad(CSOD),Ad(ADP),Ad(PCTY),Ad(PAYC)))
+Port.prices = na.omit(merge(Ad(SAP),Ad(ORCL),Ad(WDAY),Ad(CDAY),Ad(CACI),Ad(ADP),Ad(PCTY),Ad(PAYC)))
 port.logreturns = diff(log(Port.prices))[-1]
 colnames(port.logreturns) <- tickers
 
@@ -76,9 +75,9 @@ portf <- add.objective(portf, type="risk", name="StdDev")
 optPort <- optimize.portfolio(Port.returns, portf, optimize_method = "ROI")
 
 #Optimal Weights
-#SAP           ORCL          WDAY          CDAY           CSOD           ADP           PCTY          PAYC 
-#4.154155e-17  3.601824e-01 -4.163080e-17  1.398176e-01   -7.554765e-17  3.039287e-18  5.000000e-01  0.000000e+00 
-#0%            36%           0%            14%            0%             0%            50%           0%  
+#SAP           ORCL          WDAY          CDAY           CACI           ADP            PCTY          PAYC 
+#7.920902e-17  3.498359e-01  2.815557e-17  2.25029e-17    1.519507e-01   7.297861e-01   4.252348e-01  2.293632e-18
+#0%            35%           0%            0%             15.2%          7.3%           42.5%         0%  
 
 
 #Histogram of Historical Portfolio Returns using the Optimal Weights
